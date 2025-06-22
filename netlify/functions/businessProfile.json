@@ -1,0 +1,90 @@
+{
+  "companyName": "GrowEasy Real Estate",
+  "industry": "Real Estate", 
+  "description": "Lead qualification chatbot for real estate inquiries",
+  
+  "questions": [
+    {
+      "id": "location",
+      "text": "🏠 **Which city/area are you looking to buy in?**",
+      "type": "text",
+      "required": true,
+      "acknowledgment": "Great choice! Let's find the perfect property in {answer}. 🎯"
+    },
+    {
+      "id": "property_type", 
+      "text": "🏡 **What type of property interests you?**",
+      "type": "buttons",
+      "required": true,
+      "options": [
+        "1BHK Apartment",
+        "2BHK Apartment", 
+        "3BHK Apartment",
+        "4BHK+ Apartment",
+        "Villa/Independent House",
+        "Plot/Land",
+        "Commercial Space"
+      ],
+      "acknowledgment": "Perfect! {answer} is a popular choice. 👍"
+    },
+    {
+      "id": "budget",
+      "text": "💰 **What's your budget range?**",
+      "type": "buttons",
+      "required": true,
+      "options": [
+        "Under ₹25 Lakhs",
+        "₹25-50 Lakhs",
+        "₹50 Lakhs - ₹1 Crore",
+        "₹1-2 Crores",
+        "₹2+ Crores",
+        "Flexible/Discuss"
+      ],
+      "acknowledgment": "Excellent! We have great options in the {answer} range. 💎"
+    },
+    {
+      "id": "timeline",
+      "text": "⏰ **When are you planning to make this purchase?**",
+      "type": "buttons",
+      "required": true,
+      "options": [
+        "Immediately (within 1 month)",
+        "1-3 months",
+        "3-6 months", 
+        "6-12 months",
+        "More than 1 year",
+        "Just exploring options"
+      ],
+      "acknowledgment": "Thanks! Your timeline of {answer} helps us prioritize the best properties for you. ⚡"
+    }
+  ],
+
+  "rules": {
+    "hot": {
+      "budgetMinLakhs": 50,
+      "timelineMaxMonths": 3,
+      "description": "High-budget leads with immediate timeline",
+      "keywords": ["immediately", "urgent", "ready to buy", "cash ready", "pre-approved"],
+      "conditions": "budget >= 50 lakhs AND timeline <= 3 months"
+    },
+    "warm": {
+      "budgetMinLakhs": 25,
+      "timelineMaxMonths": 6,
+      "description": "Medium-budget leads with reasonable timeline",
+      "keywords": ["serious", "looking", "interested", "considering"],
+      "conditions": "budget >= 25 lakhs AND timeline <= 6 months"
+    },
+    "cold": {
+      "keywords": ["just browsing", "not sure", "maybe next year", "just exploring", "no hurry"],
+      "budgetMaxLakhs": 25,
+      "timelineMinMonths": 6,
+      "description": "Low-budget or distant timeline leads",
+      "conditions": "budget < 25 lakhs OR timeline > 6 months OR contains cold keywords"
+    },
+    "invalid": {
+      "keywords": ["spam", "test", "random", "fake"],
+      "description": "Invalid or spam leads",
+      "conditions": "incomplete answers OR contains spam keywords"
+    }
+  }
+} 
